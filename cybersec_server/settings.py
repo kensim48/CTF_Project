@@ -25,7 +25,7 @@ SECRET_KEY = '5fbt(giuj4e(qu9yh3@yc&#+^fue!e4-!$rp)p8wlu=s(p1*hf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['audacia.online']
+ALLOWED_HOSTS = ['audacia.online','127.0.0.1']
 
 
 # Application definition

@@ -46,6 +46,7 @@ def enigma_check(key):
 
 class Cipher(APIView):
     def get(self, request):
+        cube=None
         response = {}
         try:
             input = request.query_params['input'].upper()
@@ -136,7 +137,7 @@ class Cipher(APIView):
             overlay = cv2.imread('static/overlay.jpg')
             added_image = cv2.addWeighted(background, 0.7, overlay, 0.3, 0)
             cv2.imwrite("static/cubes/{}.jpeg".format(filename), added_image)
-            response["image"] = "http://audacia.online::8000/static/cubes/{}.jpeg".format(filename)
+            response["image"] = "http://audacia.online:8000/static/cubes/{}.jpeg".format(filename)
 
         return Response(response)
 
