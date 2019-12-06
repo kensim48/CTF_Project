@@ -128,3 +128,4 @@ def enigma(QUERY, KEY):
     return query, rotor_positions
 
 
+

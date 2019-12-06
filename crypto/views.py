@@ -51,29 +51,32 @@ class Cipher(APIView):
             input = request.query_params['input'].upper()
             layer = request.query_params['layer']
             key = request.query_params['key']
+
+            if not layer.isnumeric():
+                response["message"] = "Layer must be numeric"
+                return Response(response)
+
+            layer = int(layer)
             if layer == 0 or layer == 2:
                 mode = request.query_params['mode'].upper()
             else:
                 mode = None
+            print(layer)
             response["message"] = "Params accepted."
         except:
-            response["message"] = "Missing params, using sample URL = 'http://127.0.0.1:8000/cipher/?input=HELLOWORLD&key=GREYGOO020301221004ACDGFE&mode=e&layer=0'"
+            response["message"] = "Missing params, using sample URL = 'http://audacia.online:8000/cipher/?input=HELLOWORLD&key=GREYGOO020301221004ACDGFE&mode=e&layer=0'"
             input = "HELLOWORLD"
             mode = 'E'
             key = "GREYGOO020301221004ACDGFE"
             layer = 0
 
-        if not input.isalpha():
-            response["message"] = "Input must only be letters"
-            return Response(response)
+        # if not input.isalpha():
+        #     response["message"] = "Input must only be letters"
+        #     return Response(response)
         if not key.isalnum():
             response["message"] = "Key must be alphanumeric"
             return Response(response)
-        if not layer.isnumeric():
-            response["message"] = "Layer must be numeric"
-            return Response(response)
 
-        layer = int(layer)
         if layer == 0 or layer == 2:
             if not (mode == 'E' or mode == 'D'):
                 response["message"] = "Mode must be either 'E' or 'D'"
@@ -95,16 +98,19 @@ class Cipher(APIView):
                 if i.isdigit():
                     keysplit = count
                     break
-            key_1 = key[:keysplit-1]
-            key_2 = key[keysplit:]
-            enigma_bool, enigma_message = enigma_check(key_2)
+            key_2 = key[:keysplit-1]
+            key_1 = key[keysplit:]
+            enigma_bool, enigma_message = enigma_check(key_1)
+            print("key1", key_1, enigma_bool, mode)
             if enigma_bool:
                 if mode == "E":
-                    layer1, response["final_rotor_positions"] = enigma(input, key_2)
-                    cube, response["output"] = ciphercube(layer1, key_1, mode, encryptedcubes=None)
+                    layer1, response["final_rotor_positions"] = enigma(input, key_1)
+                    throwaway_cube, response["output"] = ciphercube(layer1, key_2, mode)
+                    cube, throwaway = ciphercube(query="TEST", key=key_2, mode="e")
                 elif mode == "D":
-                    cube, layer2 = ciphercube(input, key_1, mode, encryptedcubes=None)
-                    response["output"], response["final_rotor_positions"] = enigma(layer2, key_2)
+                    cube, layer2 = ciphercube(input, key_2, mode)
+                    cube = None
+                    response["output"], response["final_rotor_positions"] = enigma(layer2, key_1)
             else:
                 response["message"] = enigma_message
         elif layer == 1:
@@ -114,22 +120,23 @@ class Cipher(APIView):
             else:
                 response["message"] = enigma_message
         elif layer == 2:
-            cube, response["output"] = ciphercube(input, key, mode, encryptedcubes=None)
+            cube_throwaway, response["output"] = ciphercube(input, key, mode)
+            cube, throwaway = ciphercube(query="TEST", key=key, mode="e")
 
-        cube = {'front': [0, 1, 2, 3, 4, 5, 6, 7, 8], 'top': [38, 41, 44, 12, 13, 14, 15, 16, 17],
-                'bot': [18, 19, 20, 21, 22, 23, 27, 30, 33], 'left': [
-                11, 28, 29, 10, 31, 32, 9, 34, 35], 'right': [36, 37, 26, 39, 40, 25, 42, 43, 24],
-                'back': [51, 48, 45, 52, 49, 46, 53, 50, 47]}
-
+        # cube = {'front': [0, 1, 2, 3, 4, 5, 6, 7, 8], 'top': [38, 41, 44, 12, 13, 14, 15, 16, 17],
+        #         'bot': [18, 19, 20, 21, 22, 23, 27, 30, 33], 'left': [
+        #         11, 28, 29, 10, 31, 32, 9, 34, 35], 'right': [36, 37, 26, 39, 40, 25, 42, 43, 24],
+        #         'back': [51, 48, 45, 52, 49, 46, 53, 50, 47]}
+        # print(cube)
         if cube is not None:
-            final_image = cube_to_pixel(cube)
+            final_image = cube_to_pixel(cube[0])
             filename = str(binascii.hexlify(os.urandom(16)))[2:-1]
             cv2.imwrite("static/cubes/{}.jpeg".format(filename), final_image)
             background = cv2.imread("static/cubes/{}.jpeg".format(filename))
             overlay = cv2.imread('static/overlay.jpg')
             added_image = cv2.addWeighted(background, 0.7, overlay, 0.3, 0)
             cv2.imwrite("static/cubes/{}.jpeg".format(filename), added_image)
-            response["image"] = "http://127.0.0.1:8000/static/cubes/{}.jpeg".format(filename)
+            response["image"] = "http://audacia.online::8000/static/cubes/{}.jpeg".format(filename)
 
         return Response(response)
 
