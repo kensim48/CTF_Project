@@ -150,12 +150,12 @@ class Answer(APIView):
         except:
             response["message"] = "Missing input query, url should look like http://127.0.0.1:8000/answer/?input=THISISMYANSWER"
             return Response(response)
-        if input == "CTF{FROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS}":
-            response["message"] = "Congrats! You got the Flag! submit it as CTF{FROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS}"
-        elif input == "CTFFROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS" or input == "FROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS":
-            response["message"] = "Congrats! You got the Flag! But one last ammenedment, submit it as CTF{FROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS}"
+        if input == "CTFFROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS" or input == "FROMTHESPEAKGOODSINGLISHMOVEMENTREDASPLUMWHERETHEJOYFULGRAMMARIANWORMS":
+            response["message"] = "Congrats! You got the flag!"
         elif input == "GYYJILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD" or input == "JILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD":
             response["message"] = "Congrats! You reached the middlepoint!"
+        elif input == "8f66cca93323418f4e14ea91ab43a96ad4eb52e2249162bd28964f4bb14ecd09d429d4ab6a452a75ab5a934624ab5626c1990e7d3ad625599b62d538352a52890000000000000000000000000000000000000000000000000000000000000000000000000000000000000000":
+            response["message"] = "Congrats! You reached the middlepoint! GYYJILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD is the key you should continue using for Enigma"
         else:
             response["message"] = "That was neither the middlepoint nor the flag :("
         return Response(response)
