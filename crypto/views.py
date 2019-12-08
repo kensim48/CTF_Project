@@ -154,8 +154,9 @@ class Answer(APIView):
             response["message"] = "Congrats! You got the flag!"
         elif input == "GYYJILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD" or input == "JILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD":
             response["message"] = "Congrats! You reached the middlepoint!"
-        elif input == "8f66cca93323418f4e14ea91ab43a96ad4eb52e2249162bd28964f4bb14ecd09d429d4ab6a452a75ab5a934624ab5626c1990e7d3ad625599b62d538352a52890000000000000000000000000000000000000000000000000000000000000000000000000000000000000000":
-            response["message"] = "Congrats! You reached the middlepoint! GYYJILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD is the key you should continue using for Enigma"
+        elif input == "8f66cca93323418f4e14ea91ab43a96ad4eb52e2249162bd28964f4bb14ecd09d429d4ab6a452a75ab5a934624ab5626c1990e7d3ad625599b62d538352a52890000000000000000000000000000000000000000000000000000000000000000000000000000000000000000".upper() or input=="0x8f66cca93323418f4e14ea91ab43a96ad4eb52e2249162bd28964f4bb14ecd09d429d4ab6a452a75ab5a934624ab5626c1990e7d3ad625599b62d538352a52890000000000000000000000000000000000000000000000000000000000000000000000000000000000000000":
+            response["message"] = "Congrats! You reached the middlepoint! Since you solved it in a way we didn't anticipate, GYYJILFAGSBNTFVCTZZNZKDOHXWRDXHKXSYPNPSTUZHRSVVZIQDJZXMALCOSVXJYMXZSATTRD is the key you should continue using for Enigma."
         else:
             response["message"] = "That was neither the middlepoint nor the flag :("
+            print(input)
         return Response(response)
