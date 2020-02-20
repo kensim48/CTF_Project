@@ -6,7 +6,7 @@ The server serves 2 purpose:
 1. Allows students to check their answers
 2. Allows students to generate a Rubik's Cube image equivilence of their encoded message to assist them in their CTF process.
 
-For point 2, the program uses OpenCV to assist in the image generation. Here is one example of an image generated:
+For point 2, the program uses [OpenCV](https://pypi.org/project/opencv-python/) to assist in the image generation. Here is one example of an image generated:
 
 ![](sample_cube.jpeg)
 
